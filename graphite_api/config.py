@@ -3,6 +3,8 @@ import os
 import structlog
 import warnings
 import yaml
+import sys
+import traceback
 
 from importlib import import_module
 from structlog.processors import (format_exc_info, JSONRenderer,
@@ -73,6 +75,10 @@ def load_by_path(path):
 
 def log_exception(sender, exception, **extra):
     logger.error('Exception', exception=exception)
+    exc_info = sys.exc_info()
+    tb = traceback.format_exception(*exc_info)
+    for line in tb:
+        logger.error(line)
 
 
 def configure(app):
