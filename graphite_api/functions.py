@@ -2934,7 +2934,10 @@ def hitcount(requestContext, seriesList, intervalString,
             end_time = start_time + step
             end_bucket, end_mod = divmod(end_time - newStart, interval)
 
-            if end_bucket >= bucket_count:
+            if start_bucket == bucket_count:
+                continue
+ 
+           if end_bucket >= bucket_count:
                 end_bucket = bucket_count - 1
                 end_mod = interval
             print("gbj b ", start_bucket, len(buckets))
