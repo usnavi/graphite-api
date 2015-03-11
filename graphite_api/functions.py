@@ -2876,6 +2876,7 @@ def summarize(requestContext, seriesList, intervalString, func='sum',
 
     return results
 
+from remote_pdb import RemotePdb
 
 def hitcount(requestContext, seriesList, intervalString,
              alignToInterval=False):
@@ -2895,6 +2896,7 @@ def hitcount(requestContext, seriesList, intervalString,
     delta = parseTimeOffset(intervalString)
     interval = to_seconds(delta)
 
+    RemotePdb('127.0.0.1', 4444).set_trace()
     if alignToInterval:
         requestContext = requestContext.copy()
         s = requestContext['startTime']
