@@ -2894,6 +2894,7 @@ def hitcount(requestContext, seriesList, intervalString,
     results = []
     delta = parseTimeOffset(intervalString)
     interval = to_seconds(delta)
+    print ("gbjhc ", requestContext, seriesList, intervalString, alignToInterval)
 
     if alignToInterval:
         requestContext = requestContext.copy()
