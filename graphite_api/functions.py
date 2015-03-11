@@ -2895,8 +2895,7 @@ def hitcount(requestContext, seriesList, intervalString,
     results = []
     delta = parseTimeOffset(intervalString)
     interval = to_seconds(delta)
-
-    RemotePdb('127.0.0.1', 4444).set_trace()
+    print ("gbjhc ", requestContext, seriesList, intervalString, alignToInterval)
     if alignToInterval:
         requestContext = requestContext.copy()
         s = requestContext['startTime']
