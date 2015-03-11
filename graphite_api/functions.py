@@ -2937,7 +2937,7 @@ def hitcount(requestContext, seriesList, intervalString,
             if end_bucket >= bucket_count:
                 end_bucket = bucket_count - 1
                 end_mod = interval
-
+            print("gbj b ", start_bucket, len(buckets))
             if start_bucket == end_bucket:
                 # All of the hits go to a single bucket.
                 if start_bucket >= 0:
