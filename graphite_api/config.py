@@ -3,6 +3,8 @@ import os
 import structlog
 import warnings
 import yaml
+import sys
+import traceback
 
 from tzlocal import get_localzone
 from importlib import import_module
@@ -13,6 +15,7 @@ from .middleware import CORS, TrailingSlash
 from .search import IndexSearcher
 from .storage import Store
 from . import DEBUG
+from flask.signals import got_request_exception
 
 try:
     from logging.config import dictConfig
@@ -82,6 +85,14 @@ def load_by_path(path):
     return getattr(finder, klass)
 
 
+def log_exception(sender, exception, **extra):
+    logger.error('Exception', exception=exception)
+    exc_info = sys.exc_info()
+    tb = traceback.format_exception(*exc_info)
+    for line in tb:
+        logger.error(line)
+
+
 def configure(app):
     config_file = os.environ.get('GRAPHITE_API_CONFIG',
                                  '/etc/graphite-api.yaml')
@@ -95,6 +106,8 @@ def configure(app):
         config = {}
 
     configure_logging(config)
+
+    got_request_exception.connect(log_exception, app)
 
     for key, value in list(default_conf.items()):
         config.setdefault(key, value)
