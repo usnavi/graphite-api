@@ -94,6 +94,7 @@ def log_exception(sender, exception, **extra):
 
 
 def configure(app):
+    print("Configuring RS graphite-api v1.0")
     config_file = os.environ.get('GRAPHITE_API_CONFIG',
                                  '/etc/graphite-api.yaml')
     if os.path.exists(config_file):
