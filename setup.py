@@ -12,6 +12,7 @@ install_requires = [
     'six',
     'structlog',
     'tzlocal',
+    'blueflood-graphite-finder',
 ]
 
 if sys.version_info < (2, 7):
