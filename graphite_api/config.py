@@ -4,6 +4,8 @@ import structlog
 import traceback
 import warnings
 import yaml
+import sys
+import traceback
 
 from flask import make_response
 from tzlocal import get_localzone
@@ -15,6 +17,7 @@ from .middleware import CORS, TrailingSlash
 from .search import IndexSearcher
 from .storage import Store
 from . import DEBUG
+from flask.signals import got_request_exception
 
 try:
     from logging.config import dictConfig
@@ -81,6 +84,7 @@ def error_handler(e):
 
 
 def configure(app):
+    print("Configuring RS graphite-api v1.0")
     config_file = os.environ.get('GRAPHITE_API_CONFIG',
                                  '/etc/graphite-api.yaml')
     if os.path.exists(config_file):
@@ -93,6 +97,8 @@ def configure(app):
         config = {}
 
     configure_logging(config)
+
+    got_request_exception.connect(log_exception, app)
 
     for key, value in list(default_conf.items()):
         config.setdefault(key, value)
